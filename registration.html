@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        display: flex;
+        background-color: #9CDBA6;
+        justify-content: center;
+    }
+    .registration
+    {
+        border: 5px solid white;
+        width:300px;
+        position: relative;
+        right:50px;
+        top: 150px;
+        padding: 30px;
+    }
+    
+
+</style>
+
+<body>
+
+   
+    <div class="registration">
+        <h1><u>Registration Form</u></h1>
+        <form action="#" method="post">
+            <label for="name">Name:<span class="required">*</span></label>
+            <input type="text" id="name" name="name" size="35" style="height: 20px;" required><br><br>
+            
+            <label for="email">Email:<span class="required">*</span></label>
+            <input type="email" id="email" name="email" size="35" required><br><br>
+            
+            <label for="phone">Phone Number:<span class="required">*</span></label>
+            <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" size="35" required><br><br>
+            
+            <label>Gender:</label>
+            <input type="radio" id="male" name="gender" value="male" size="35" required>
+            <label for="male">Male</label>
+            
+            <input type="radio" id="female" name="gender" value="female" size="35" required>
+            <label for="female">Female</label>
+            
+            <input type="radio" id="other" name="gender" value="other" size="35" required>
+            <label for="other">Other</label><br><br>
+            
+            <label for="password">Password:<span class="required">*</span></label>
+            <input type="password" id="password" name="password" size="35" required><br><br>
+            
+            <label for="confirm-password">Confirm Password:<span class="required">*</span></label>
+            <input type="password" id="confirm-password" name="confirm-password" size="35" required><br><br>
+            <div style="text-align:center;">
+            <button type="submit"style="">Register</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
+
+</body>
+</html>
