@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Design a compelling online presence with our stylish website design services, customized to reflect your brand identity.">
+
+    <title>Website</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <style>
+        .error {
+            color: rgb(137, 38, 38);
+            font-size: 0.9em;
+            display: inline-block; /* Ensure error messages are visible */
+        }
+        .banner, .contact {
+            padding: 20px;
+        }
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar ul li {
+            display: inline;
+            margin-right: 15px;
+        }
+        .navbar ul li a {
+            text-decoration: none;
+        }
+        .contact-box {
+            display: flex;
+            justify-content: space-between;
+        }
+        .contact-left, .contact-right {
+            width: 45%;
+        }
+        button.send {
+            cursor: pointer; /* Ensure button is clickable */
+        }
+        html {
+            scroll-behavior: smooth; /* Enable smooth scrolling */
+        }
+    </style>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="banner">
+        <div class="navbar">
+            <img src="./images/logo.png" class="logo" alt="Logo">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+                <li><a href="about us.html">About US</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <h1>Design your Website</h1>
+            <p>Craft a compelling online presence with our intuitive and stylish website design services,<br> customized to reflect your distinctive brand identity.</p>
+            <div>
+                <a href="login.html" style="text-decoration: none;">
+                    <button type="button"><span class="red"></span>Sign In</button>
+                </a>
+                <a href="registration.html" style="text-decoration: none;">
+                    <button type="button"><span class="red"></span>Sign Up</button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="contact" class="contact">
+        <h1 class="heading">Connect with Us</h1>
+        <p>We would like to respond to your queries. Feel free to get in touch with us.</p>
+        <div class="contact-box">
+            <div class="contact-left">
+                <h3>Send Your Request</h3>
+                <form id="contactForm" onsubmit="return validateForm()">
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" placeholder="Jacob">
+                            <span id="nameError" class="error"></span>
+                        </div>
+                        <div class="input-group">
+                            <label for="phone">Phone</label>
+                            <input type="text" id="phone" name="phone" placeholder="+1423 678 900">
+                            <span id="phoneError" class="error"></span>
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="Jacob@gmail.com">
+                            <span id="emailError" class="error"></span>
+                        </div>
+                        <div class="input-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" placeholder="Product demo">
+                            <span id="subjectError" class="error"></span>
+                        </div>
+                    </div>
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="5" placeholder="Your message"></textarea>
+                    <span id="messageError" class="error"></span>
+                    <button type="submit" class="send">SEND</button>
+                </form>
+            </div>
+            <div class="contact-right">
+                <h3>Reach Us</h3>
+                <table>
+                    <tr>
+                        <td>Email</td>
+                        <td>contactus@gmail.com</td>
+                    </tr>
+                    <tr>
+                        <td>Phone Number</td>
+                        <td>+1324 7800</td>
+                    </tr>
+                    <tr>
+                        <td>Address</td>
+                        <td>#212, Ground Floor, Kakkanad<br>
+                            Kochi, Ernakulam, Kerala, India 5600001
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            function validateName() {
+                var name = $('#name').val().trim();
+                if (!name) {
+                    $('#nameError').text("Please enter your name.");
+                    return false;
+                } else {
+                    $('#nameError').text("");
+                    return true;
+                }
+            }
+    
+            function validatePhone() {
+                var phone = $('#phone').val().trim();
+                var phoneRegex = /^[+]?[0-9]{10,15}$/;
+                if (!phone || !phoneRegex.test(phone)) {
+                    $('#phoneError').text("Please enter a valid phone number.");
+                    return false;
+                } else {
+                    $('#phoneError').text("");
+                    return true;
+                }
+            }
+    
+            function validateEmail() {
+                var email = $('#email').val().trim();
+                var emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if (!email || !emailRegex.test(email)) {
+                    $('#emailError').text("Please enter a valid email address.");
+                    return false;
+                } else {
+                    $('#emailError').text("");
+                    return true;
+                }
+            }
+    
+            function validateSubject() {
+                var subject = $('#subject').val().trim();
+                if (!subject) {
+                    $('#subjectError').text("Please enter a subject.");
+                    return false;
+                } else {
+                    $('#subjectError').text("");
+                    return true;
+                }
+            }
+    
+            function validateMessage() {
+                var message = $('#message').val().trim();
+                if (!message) {
+                    $('#messageError').text("Please enter your message.");
+                    return false;
+                } else {
+                    $('#messageError').text("");
+                    return true;
+                }
+            }
+    
+            function validateForm() {
+                var isNameValid = validateName();
+                var isPhoneValid = validatePhone();
+                var isEmailValid = validateEmail();
+                var isSubjectValid = validateSubject();
+                var isMessageValid = validateMessage();
+    
+                return isNameValid && isPhoneValid && isEmailValid && isSubjectValid && isMessageValid;
+            }
+    
+            $('#name').on('input', validateName);
+            $('#phone').on('input', validatePhone);
+            $('#email').on('input', validateEmail);
+            $('#subject').on('input', validateSubject);
+            $('#message').on('input', validateMessage);
+    
+            $('#contactForm').on('submit', function(event) {
+                event.preventDefault();
+                if (validateForm()) {
+                    alert('Form submitted successfully!');
+                    // Add your form submission logic here (e.g., AJAX call)
+                }
+            });
+        });
+        </script>
+</body>
+</html>

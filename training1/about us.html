@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <style>
+        .navbar {
+            position: relative;
+            z-index: 1000; /* Ensure the navbar is above other elements */
+        }
+        .login {
+            width: 350px;
+            border-radius: 8px;
+            padding: 20px;
+            position: relative;
+            top:-50px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .login h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .items {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+        .about-us {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 1000px;
+            position:relative;
+            left:250px;
+            top:50px;
+        }
+        .about-us img {
+            width: 40%;
+            height: auto;
+            margin-right: 20px;
+            border-radius: 8px;
+        }
+
+        .about-us .text-content {
+            flex: 1;
+        }
+        .about-us h2 {
+            margin-top: 0;
+            font-size: 2rem;
+            position: absolute;
+          
+        }
+        .about-us p {
+            font-size: 1rem;
+            line-height: 1.6;
+            text-align: justify;
+            
+           
+        }
+        .main
+        {
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <div class="navbar">
+            <img src="./images/logo.png" class="logo" alt="Logo">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+               
+            </ul>
+        </div>
+        <div class="about-us">
+            <img src="./images/bg.jpg" alt="About Us Image">
+            <div class="text-content">
+                <h2>About Us</h2>
+                <p class="main">
+                    Welcome to our website! We are a passionate team dedicated to providing exceptional service and creating a user-friendly experience. Our mission is to deliver high-quality solutions that meet the needs of our customers and exceed their expectations.
+                </p>
+                <p>
+                    Our team consists of experienced professionals with a diverse set of skills and expertise. We believe in continuous improvement and innovation to stay ahead in the industry and to provide the best solutions to our clients.
+                </p>
+                <p>
+                    Thank you for visiting our website. We are excited to work with you and help you achieve your goals. If you have any questions or need further information, please feel free to contact us.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
