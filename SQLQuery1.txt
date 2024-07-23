@@ -1,0 +1,460 @@
+CREATE DATABASE UserAuth;
+USE UserAuth;
+
+---------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE registration (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    phone_number VARCHAR(15) NOT NULL,
+    country VARCHAR(50) NOT NULL,
+    state VARCHAR(50) NOT NULL,
+    district VARCHAR(50) NOT NULL,
+    gender CHAR(10)NOT NULL,
+    password VARCHAR(255) NOT NULL,
+  
+);
+INSERT INTO registration (name, email, phone_number, country, state, district, gender, password, confirm_password)
+VALUES ('John Doe', 'john.doe@example.com', '1234567890', 'USA', 'California', 'Los Angeles', 'Male'password123');
+
+
+INSERT INTO registration (name, email, phone_number, country, state, district, gender, password, confirm_password)
+VALUES ('Jane Smith', 'jane.smith@example.com', '0987654321', 'USA', 'New York', 'New York', 'Female'password456);
+
+SELECT * FROM registration;
+------------------------------------------------------------------------------------------------------------------------------------------CREATE TABLE login (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    FOREIGN KEY (username) REFERENCES registration(email)
+);
+
+INSERT INTO login (username, password) values('john.doe@example.com',password456)
+------------------------------------------------------------------------------------------------------------------------------------------UPDATE registration SET password = 'newpassword123', confirm_password = 'newpassword123' WHERE email = 'john.doe@example.com';
+
+DELETE FROM registration WHERE email = 'jane.smith@example.com';
+------------------------------------------------------------------------------------------------------------------------------------------CREATE TABLE employee (
+    emp_id INT PRIMARY KEY, 
+    name VARCHAR(50) NOT NULL,  
+    salary DECIMAL(10, 2) NOT NULL,  
+    location VARCHAR(50) 
+dept_id int not null
+FOREIGN KEY(DEPT_ID) REFERENCES DEPARTMENT(DEPT_ID)
+);
+
+CREATE TABLE DEPARTMENT(
+DEPT_ID INT  PRIMARY KEY,
+DEPT_NAME VARCHAR(50) NOT NULL);
+-----------------------------------------------------------------------------------------------------------------------------------------TSELECT MAX(salary) AS SecondLargestSalary
+FROM employee
+WHERE salary < (SELECT MAX(salary) FROM employee);//TO FIND THE SECONDLARGEST SALARY
+
+
+SELECT department, COUNT(*) AS employee_count
+FROM employee
+GROUP BY department;
+
+
+CREATE PROCEDURE InsertUser
+    @name VARCHAR(100),
+    @email VARCHAR(100),
+    @phone_number VARCHAR(15),
+    @country VARCHAR(50),
+    @state VARCHAR(50),
+    @district VARCHAR(50),
+    @gender VARCHAR(10),
+    @password VARCHAR(255) -- Ensure this is hashed before calling the procedure
+AS
+BEGIN
+      INSERT INTO registration (name, email, phone_number, country, state, district, gender, password)
+    VALUES (@name, @email, @phone_number, @country, @state, @district, @gender, @password);
+END;
+
+EXEC InsertRegistration 'John Doe', 'john@example.com', '1234567890', 'Male', 'USA', 'New York', 'NY', 'password123';
+
+
+
+EXEC InsertUser
+    @name = 'John Doe',
+    @email = 'john.doe@example.com',
+    @phone_number = '1234567890',
+    @country = 'India
+    @state = 'Kerala
+    @district = 'Kollam
+    @gender = 'Male',
+    @password = 'new@123the password'
+
+
+
+
+
+
+CREATE PROCEDURE GetRegistrations
+AS
+BEGIN
+    SELECT * FROM Registration;
+END;
+EXEC GetRegistrations;
+
+
+
+
+CREATE PROCEDURE GetRegistrationByEmail
+    @Email NVARCHAR(100)
+AS
+BEGIN
+    SELECT * FROM Registration WHERE Email = @Email;
+END;
+EXEC GetRegistrationByEmail 'john@example.com';
+
+
+CREATE PROCEDURE UpdateRegistration
+    @Email NVARCHAR(100),
+    @Name NVARCHAR(100),
+    @PhoneNumber NVARCHAR(15),
+    @Gender NVARCHAR(10),
+    @Country NVARCHAR(50),
+    @District NVARCHAR(50),
+    @State NVARCHAR(50),
+    @Password NVARCHAR(50)
+AS
+BEGIN
+    UPDATE Registration
+    SET Name = @Name, PhoneNumber = @PhoneNumber, Gender = @Gender, Country = @Country,
+        District = @District, State = @State, Password = @Password
+    WHERE Email = @Email;
+END;
+
+EXEC UpdateRegistration 'john@example.com', 'John Doe', '0987654321', 'Male', 'USA', 'New York', 'NY', 'newpassword123';
+
+
+
+CREATE PROCEDURE DeleteRegistration
+    @Email NVARCHAR(100)
+AS
+BEGIN
+    DELETE FROM Registration WHERE Email = @Email;
+END;
+
+EXEC DeleteRegistration 'john@example.com';
+
+
+
+CREATE PROCEDURE ManageStudentAdmission
+    @Operation NVARCHAR(10),
+    @Id INT = NULL,
+    @Name NVARCHAR(100) = NULL,
+    @Email NVARCHAR(100) = NULL,
+    @PhoneNumber NVARCHAR(15) = NULL,
+    @Gender CHAR(1) = NULL,
+    @Country NVARCHAR(50) = NULL,
+    @District NVARCHAR(50) = NULL,
+    @State NVARCHAR(50) = NULL,
+    @Password NVARCHAR(255) = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF @Operation = 'CREATE'
+    BEGIN
+        INSERT INTO StudentAdmission (Name, Email, PhoneNumber, Gender, Country, District, State, Password)
+        VALUES (@Name, @Email, @PhoneNumber, @Gender, @Country, @District, @State, @Password);
+    END
+    ELSE IF @Operation = 'READ'
+    BEGIN
+        IF @Id IS NOT NULL
+        BEGIN
+            SELECT * FROM StudentAdmission WHERE Id = @Id;
+        END
+        ELSE IF @Email IS NOT NULL
+        BEGIN
+            SELECT * FROM StudentAdmission WHERE Email = @Email;
+        END
+        ELSE
+        BEGIN
+            SELECT * FROM StudentAdmission;
+        END
+    END
+    ELSE IF @Operation = 'UPDATE'
+    BEGIN
+        UPDATE StudentAdmission
+        SET Name = @Name, 
+            PhoneNumber = @PhoneNumber, 
+            Gender = @Gender, 
+            Country = @Country,
+            District = @District, 
+            State = @State, 
+            Password = @Password
+        WHERE Email = @Email;
+
+        IF @@ROWCOUNT = 0
+        BEGIN
+            PRINT 'No rows updated. Please check if the email exists.';
+        END
+        ELSE
+        BEGIN
+            PRINT 'Update successful.';
+        END
+    END
+    ELSE IF @Operation = 'DELETE'
+    BEGIN
+        DELETE FROM StudentAdmission WHERE Email = @Email;
+
+        IF @@ROWCOUNT = 0
+        BEGIN
+            PRINT 'No rows deleted. Please check if the email exists.';
+        END
+        ELSE
+        BEGIN
+            PRINT 'Delete successful.';
+        END
+    END
+    ELSE
+    BEGIN
+        PRINT 'Invalid operation. Please specify CREATE, READ, UPDATE, or DELETE.';
+    END
+END;
+
+
+EXEC ManageStudentAdmission 
+    @Operation = 'CREATE',
+    @Name = 'Jane Doe',
+    @Email = 'jane@example.com',
+    @PhoneNumber = '1234567890',
+    @Gender = 'F',
+    @Country = 'USA',
+    @District = 'California',
+    @State = 'CA',
+    @Password = 'password123';
+
+EXEC ManageStudentAdmission 
+    @Operation = 'READ';
+
+EXEC ManageStudentAdmission 
+    @Operation = 'READ',
+    @Email = 'jane@example.com';
+
+
+EXEC ManageStudentAdmission 
+    @Operation = 'UPDATE',
+    @Name = 'Jane Doe Updated',
+    @Email = 'jane@example.com',
+    @PhoneNumber = '0987654321',
+    @Gender = 'F',
+    @Country = 'USA',
+    @District = 'Los Angeles',
+    @State = 'CA',
+    @Password = 'newpassword123';
+
+
+EXEC ManageStudentAdmission 
+    @Operation = 'DELETE',
+    @Email = 'jane@example.com';
+
+1NF
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    FirstName NVARCHAR(50),
+    LastName NVARCHAR(50),
+    Email NVARCHAR(100)
+);
+2NF
+
+-- Original Table
+CREATE TABLE StudentCourses (
+    StudentID INT,
+    CourseID INT,
+    CourseName NVARCHAR(100),
+    PRIMARY KEY (StudentID, CourseID)
+);
+
+-- Normalized Tables
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    FirstName NVARCHAR(50),
+    LastName NVARCHAR(50),
+    Email NVARCHAR(100)
+);
+
+CREATE TABLE Courses (
+    CourseID INT PRIMARY KEY,
+    CourseName NVARCHAR(100)
+);
+
+CREATE TABLE StudentCourses (
+    StudentID INT,
+    CourseID INT,
+    PRIMARY KEY (StudentID, CourseID),
+    FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+    FOREIGN KEY (CourseID) REFERENCES Courses(CourseID)
+);
+
+Third Normal Form (3NF):
+
+-- Original Table
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    FirstName NVARCHAR(50),
+    LastName NVARCHAR(50),
+    Email NVARCHAR(100),
+    AdvisorName NVARCHAR(100),
+    AdvisorPhone NVARCHAR(15)
+);
+
+-- Normalized Tables
+CREATE TABLE Students (
+    StudentID INT PRIMARY KEY,
+    FirstName NVARCHAR(50),
+    LastName NVARCHAR(50),
+    Email NVARCHAR(100),
+    AdvisorID INT
+);
+
+CREATE TABLE Advisors (
+    AdvisorID INT PRIMARY KEY,
+    AdvisorName NVARCHAR(100),
+    AdvisorPhone NVARCHAR(15)
+);
+
+-- Foreign key relationship
+ALTER TABLE Students
+ADD FOREIGN KEY (AdvisorID) REFERENCES Advisors(AdvisorID);
+
+Boyce-Codd Normal Form (BCNF):
+
+-- Original Table
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName NVARCHAR(100),
+    SupplierName NVARCHAR(100),
+    SupplierContact NVARCHAR(50)
+);
+
+CREATE TABLE Suppliers (
+    SupplierID INT PRIMARY KEY,
+    SupplierName NVARCHAR(100),
+    SupplierContact NVARCHAR(50)
+);
+
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY,
+    ProductName NVARCHAR(100),
+    SupplierID INT,
+    FOREIGN KEY (SupplierID) REFERENCES Suppliers(SupplierID)
+);
+
+clustered
+-- Create the Products table
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY CLUSTERED,
+    ProductName NVARCHAR(100),
+    Category NVARCHAR(50),
+    Price DECIMAL(10, 2)
+);
+
+-- Create a clustered index on ProductID (Primary Key, so it is clustered by default)
+CREATE CLUSTERED INDEX IX_ProductID
+ON Products(ProductID);
+
+-- Create a non-clustered index on Category column
+CREATE NONCLUSTERED INDEX IX_Category
+ON Products(Category);
+
+-- Query to find products in a specific category
+SELECT * 
+FROM Products
+WHERE Category = 'Electronics';
+
+-- Query to find a specific product by ID
+SELECT * 
+FROM Products
+WHERE ProductID = 1;
+
+
+Pivot and Unpivot Values in SQL Table
+
+-- Sample Data
+CREATE TABLE Sales (
+    Product NVARCHAR(50),
+    Month NVARCHAR(10),
+    SalesAmount DECIMAL(10,2)
+);
+
+INSERT INTO Sales (Product, Month, SalesAmount)
+VALUES ('ProductA', 'Jan', 1000),
+       ('ProductA', 'Feb', 1200),
+       ('ProductB', 'Jan', 1500),
+       ('ProductB', 'Feb', 1600);
+
+-- Pivot Query
+SELECT Product, 
+       ISNULL([Jan], 0) AS Jan_Sales, 
+       ISNULL([Feb], 0) AS Feb_Sales
+FROM (
+    SELECT Product, Month, SalesAmount
+    FROM Sales
+) AS SourceTable
+PIVOT (
+    SUM(SalesAmount)
+    FOR Month IN ([Jan], [Feb])
+) AS PivotTable;
+
+
+-- Sample Data
+CREATE TABLE PivotedSales (
+    Product NVARCHAR(50),
+    Jan_Sales DECIMAL(10,2),
+    Feb_Sales DECIMAL(10,2)
+);
+
+INSERT INTO PivotedSales (Product, Jan_Sales, Feb_Sales)
+VALUES ('ProductA', 1000, 1200),
+       ('ProductB', 1500, 1600);
+
+-- Unpivot Query
+SELECT Product, Month, SalesAmount
+FROM (
+    SELECT Product, Jan_Sales, Feb_Sales
+    FROM PivotedSales
+) AS SourceTable
+UNPIVOT (
+    SalesAmount FOR Month IN (Jan_Sales, Feb_Sales)
+) AS UnpivotTable;
+
+
+MERGE Concept in SQL Table
+
+-- Sample Tables
+CREATE TABLE SalesTarget (
+    Product NVARCHAR(50),
+    TargetSales DECIMAL(10,2)
+);
+
+CREATE TABLE SalesActual (
+    Product NVARCHAR(50),
+    ActualSales DECIMAL(10,2)
+);
+
+INSERT INTO SalesTarget (Product, TargetSales)
+VALUES ('ProductA', 1000),
+       ('ProductB', 1500);
+
+INSERT INTO SalesActual (Product, ActualSales)
+VALUES ('ProductA', 1200),
+       ('ProductB', 1600);
+
+-- Merge Query
+MERGE SalesTarget AS target
+USING SalesActual AS source
+ON target.Product = source.Product
+WHEN MATCHED AND target.TargetSales <> source.ActualSales THEN
+    UPDATE SET target.TargetSales = source.ActualSales
+WHEN NOT MATCHED BY TARGET THEN
+    INSERT (Product, TargetSales)
+    VALUES (source.Product, source.ActualSales);
+
+
+
+
+
+
