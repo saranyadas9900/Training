@@ -22,7 +22,8 @@ INSERT INTO registration (name, email, phone_number, country, state, district, g
 VALUES ('Jane Smith', 'jane.smith@example.com', '0987654321', 'USA', 'New York', 'New York', 'Female'password456);
 
 SELECT * FROM registration;
-------------------------------------------------------------------------------------------------------------------------------------------CREATE TABLE login (
+------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE login (
     id INT IDENTITY(1,1) PRIMARY KEY,
     username VARCHAR(100) NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -30,10 +31,12 @@ SELECT * FROM registration;
 );
 
 INSERT INTO login (username, password) values('john.doe@example.com',password456)
-------------------------------------------------------------------------------------------------------------------------------------------UPDATE registration SET password = 'newpassword123', confirm_password = 'newpassword123' WHERE email = 'john.doe@example.com';
+------------------------------------------------------------------------------------------------------------------------------------------
+UPDATE registration SET password = 'newpassword123', confirm_password = 'newpassword123' WHERE email = 'john.doe@example.com';
 
 DELETE FROM registration WHERE email = 'jane.smith@example.com';
-------------------------------------------------------------------------------------------------------------------------------------------CREATE TABLE employee (
+------------------------------------------------------------------------------------------------------------------------------------------
+CREATE TABLE employee (
     emp_id INT PRIMARY KEY, 
     name VARCHAR(50) NOT NULL,  
     salary DECIMAL(10, 2) NOT NULL,  
@@ -45,7 +48,8 @@ FOREIGN KEY(DEPT_ID) REFERENCES DEPARTMENT(DEPT_ID)
 CREATE TABLE DEPARTMENT(
 DEPT_ID INT  PRIMARY KEY,
 DEPT_NAME VARCHAR(50) NOT NULL);
------------------------------------------------------------------------------------------------------------------------------------------TSELECT MAX(salary) AS SecondLargestSalary
+----------------------------------------------------------------------------------------------------------------------------------------
+SELECT MAX(salary) AS SecondLargestSalary
 FROM employee
 WHERE salary < (SELECT MAX(salary) FROM employee);//TO FIND THE SECONDLARGEST SALARY
 
